@@ -7,3 +7,4 @@ name = "pypi"
 
 [packages]
 pymongo = "*"
+"line-bot-sdk" = "*"

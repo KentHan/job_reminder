@@ -1,8 +1,11 @@
-import json
+import json, os
 from dao import JobDAO
 from job_update_bot.spiders.items import JobItem
+from message import MessageApi
 
 dao = JobDAO()
+message_api = MessageApi()
+target = os.getenv("TARGET")
 
 def diff(first, second):
     second = set(second)
@@ -28,6 +31,9 @@ def compare():
 
 def notify_added_jobs(added_jobs):
 	print('added jobs: ' + str(added_jobs))
+	for job in added_jobs:
+		text = "{} is added.".format(job)
+		message_api.send_text_message(target, text)
 
 def update_added_jobs_in_db(added_jobs):
 	for job_title in added_jobs:
