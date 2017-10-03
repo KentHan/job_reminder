@@ -1,6 +1,6 @@
 import scrapy
 
-from items import JobItem
+from .items import JobItem
 
 SELECTOR_JOB_TITLE="#intro > form  ul > li:nth-child(3) > div > a::text"
 SELECTOR_NEXT_PAGE="#paging > a.pn"
