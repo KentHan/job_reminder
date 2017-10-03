@@ -42,6 +42,9 @@ def update_added_jobs_in_db(added_jobs):
 
 def notify_removed_jobs(removed_jobs):
 	print('removed jobs: ' + str(removed_jobs))
+	for job in removed_jobs:
+		text = "{} is removed.".format(job)
+		message_api.send_text_message(target, text)
 
 def update_removed_jobs_in_db(removed_jobs):
 	for job_title in removed_jobs:
