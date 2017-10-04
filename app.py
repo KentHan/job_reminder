@@ -9,10 +9,10 @@ target = os.getenv("TARGET")
 
 def diff(first, second):
     second = set(second)
+    first = set(first)
     return [item for item in first if item not in second]
 
 def compare():
-	
 	recorded_job_items = dao.query_all_jobs()
 	recorded_job_title_list = [job_item['job_title'] for job_item in recorded_job_items]
 
