@@ -28,6 +28,6 @@ class JobSpider(scrapy.Spider):
     def parse_job(self, response):
 	    for title in response.css(SELECTOR_JOB_TITLE):
 	    	item = JobItem()
-	    	item['job_title'] = title.extract()
-	    	print(title.extract())
+	    	item['job_title'] = title.extract().strip()
+	    	print(item['job_title'])
 	    	yield item
