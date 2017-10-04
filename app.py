@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import json, os
 from dao import JobDAO
 from job_update_bot.spiders.items import JobItem
@@ -32,7 +34,7 @@ def compare():
 def notify_added_jobs(added_jobs):
 	print('added jobs: ' + str(added_jobs))
 	for job in added_jobs:
-		text = "{} is added.".format(job)
+		text = u"{} is added.".format(job)
 		message_api.send_text_message(target, text)
 
 def update_added_jobs_in_db(added_jobs):
@@ -43,7 +45,7 @@ def update_added_jobs_in_db(added_jobs):
 def notify_removed_jobs(removed_jobs):
 	print('removed jobs: ' + str(removed_jobs))
 	for job in removed_jobs:
-		text = "{} is removed.".format(job)
+		text = u"{} is removed.".format(job)
 		message_api.send_text_message(target, text)
 
 def update_removed_jobs_in_db(removed_jobs):
