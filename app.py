@@ -24,10 +24,15 @@ def compare():
 	print(latest_job_title_list)
 
 	added_jobs = diff(latest_job_title_list, recorded_job_title_list)
+	removed_jobs = diff(recorded_job_title_list, latest_job_title_list)
+
+	if len(added_jobs + removed_jobs) == 0:
+        message_api.send_text_message(target, "No update~")
+        return
+
 	notify_added_jobs(added_jobs)
 	update_added_jobs_in_db(added_jobs)
 
-	removed_jobs = diff(recorded_job_title_list, latest_job_title_list)
 	notify_removed_jobs(removed_jobs)
 	update_removed_jobs_in_db(removed_jobs)
 
