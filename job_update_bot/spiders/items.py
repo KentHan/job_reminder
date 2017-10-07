@@ -11,3 +11,5 @@ import scrapy
 class JobItem(scrapy.Item):
     # define the fields for your item here like:
     job_title = scrapy.Field()
+    job_link = scrapy.Field()
+    company_name = scrapy.Field()

@@ -4,8 +4,11 @@ import os
 from .items import JobItem
 import logging
 
-SELECTOR_JOB_TITLE="#intro > form  ul > li:nth-child(3) > div > a::text"
+SELECTOR_JOB_LINK="#intro > form  ul > li:nth-child(3) > div > a"
 SELECTOR_OTHER_PAGE_LINK_TEXT="#paging > a::text"
+SELECTOR_COMPANY_NAME="#comp_header > ul > li.comp_name > h1::text"
+
+ONE_ZERO_FOUR_FQDN='https://www.104.com.tw/'
 
 class JobSpider(scrapy.Spider):
     name = 'job_update_bot'
@@ -24,8 +27,15 @@ class JobSpider(scrapy.Spider):
         yield scrapy.Request(response.url, callback=self.parse_job)
         
     def parse_job(self, response):
-	    for title in response.css(SELECTOR_JOB_TITLE):
-	    	item = JobItem()
-	    	item['job_title'] = title.extract().strip()
-	    	print(item['job_title'])
-	    	yield item
+        company_name = response.css(SELECTOR_COMPANY_NAME)[0].extract().strip()
+        for element in response.css(SELECTOR_JOB_LINK):
+            item = JobItem()
+
+            item['job_title'] = element.css('::text')[0].extract().strip()
+            print(item['job_title'])
+
+            relative_job_link = element.css('::attr(href)')[0].extract().strip()
+            item['job_link'] = ONE_ZERO_FOUR_FQDN + relative_job_link
+
+            item['company_name'] = company_name
+            yield item
