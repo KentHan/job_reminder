@@ -1,4 +1,5 @@
 import scrapy
+import os
 
 from .items import JobItem
 import logging
@@ -8,10 +9,7 @@ SELECTOR_OTHER_PAGE_LINK_TEXT="#paging > a::text"
 
 class JobSpider(scrapy.Spider):
     name = 'job_update_bot'
-    start_urls = (
-    	'https://www.104.com.tw/jobbank/custjob/index.php?r=cust&j=553f4770393b436c35373f683d433b1e12e2e2e7146713f2634j53', 
-   		'https://www.104.com.tw/jobbank/custjob/index.php?r=cust&j=4d3f4770393b436c35373f683d433b1e12e2e2e2c4661612634j00' 
-   	)
+    start_urls = os.getenv("JOB_URLS").split(",")
 
     def parse(self, response):
         logging.info("response.url: " + response.url)
