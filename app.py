@@ -19,6 +19,7 @@ def compare():
     recorded_job_title_list = [job_item['job_title'] for job_item in recorded_job_items]
 
     json_data=open("jobs.json").read()
+    global latest_job_items
     latest_job_items = json.loads(json_data)
     latest_job_title_list = [job_item['job_title'] for job_item in latest_job_items]
     print(latest_job_title_list)
@@ -38,9 +39,11 @@ def compare():
 
 def notify_added_jobs(added_jobs):
     print('added jobs: ' + str(added_jobs))
-    for job in added_jobs:
-    	text = u"{} is added.".format(job)
-    	message_api.send_text_message(target, text)
+    for job_title in added_jobs:
+        job_detail = get_job_detail(job_title)
+        text = u"{} from {} is added.\nurl: {}" \
+            .format(job_detail['job_title'], job_detail['company_name'], job_detail['job_link'])
+        message_api.send_text_message(target, text)
 
 def update_added_jobs_in_db(added_jobs):
     for job_title in added_jobs:
@@ -50,12 +53,19 @@ def update_added_jobs_in_db(added_jobs):
 def notify_removed_jobs(removed_jobs):
     print('removed jobs: ' + str(removed_jobs))
     for job in removed_jobs:
-    	text = u"{} is removed.".format(job)
-    	message_api.send_text_message(target, text)
+        job_detail = get_job_detail(job_title)
+        text = u"{} from {} is removed." \
+            .format(job_detail['job_title'], job_detail['company_name'])
+        message_api.send_text_message(target, text)
 
 def update_removed_jobs_in_db(removed_jobs):
     for job_title in removed_jobs:
     	job = JobItem({'job_title': job_title})
     	dao.delete_job(job)
+
+def get_job_detail(job_title):
+    for job in latest_job_items:
+        if job['job_title'] == job_title:
+            return job
 
 compare()
