@@ -58,8 +58,4 @@ def update_removed_jobs_in_db(removed_jobs):
     	job = JobItem({'job_title': job_title})
     	dao.delete_job(job)
 
-
-# job = JobItem()
-# job['job_title'] = "RD"
-# print(job)
 compare()
