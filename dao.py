@@ -28,7 +28,9 @@ class JobDAO():
 	def add_job(self, job):
 		result = self.db.job.insert_one(
             {
-                "job_title": job['job_title']
+                "job_title": job['job_title'],
+                "company_name": job['company_name'],
+                "job_link": job['job_link']
             }
         )
 		return result.acknowledged

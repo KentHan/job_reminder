@@ -47,8 +47,9 @@ def notify_added_jobs(added_jobs):
 
 def update_added_jobs_in_db(added_jobs):
     for job_title in added_jobs:
-    	job = JobItem({'job_title': job_title})
-    	dao.add_job(job)
+        job_detail = get_job_detail(job_title)
+        job = JobItem({'job_title': job_title, 'company_name': job_detail['company_name'], 'job_link': job_detail['job_link']})
+        dao.add_job(job)
 
 def notify_removed_jobs(removed_jobs):
     print('removed jobs: ' + str(removed_jobs))
