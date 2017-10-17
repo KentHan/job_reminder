@@ -40,14 +40,14 @@ def compare():
 def notify_added_jobs(added_jobs):
     print('added jobs: ' + str(added_jobs))
     for job_title in added_jobs:
-        job_detail = get_job_detail(job_title)
+        job_detail = get_job_detail_from_local(job_title)
         text = u"{} from {} is added.\nurl: {}" \
             .format(job_detail['job_title'], job_detail['company_name'], job_detail['job_link'])
         message_api.send_text_message(target, text)
 
 def update_added_jobs_in_db(added_jobs):
     for job_title in added_jobs:
-        job_detail = get_job_detail(job_title)
+        job_detail = get_job_detail_from_local(job_title)
         job = JobItem({'job_title': job_title, 'company_name': job_detail['company_name'], 'job_link': job_detail['job_link']})
         dao.add_job(job)
 
@@ -64,7 +64,7 @@ def update_removed_jobs_in_db(removed_jobs):
     	job = JobItem({'job_title': job_title})
     	dao.delete_job(job)
 
-def get_job_detail(job_title):
+def get_job_detail_from_local(job_title):
     for job in latest_job_items:
         if job['job_title'] == job_title:
             return job
