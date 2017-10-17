@@ -54,8 +54,9 @@ def update_added_jobs_in_db(added_jobs):
 def notify_removed_jobs(removed_jobs):
     print('removed jobs: ' + str(removed_jobs))
     for job_title in removed_jobs:
-        text = u"{} is removed." \
-            .format(job_title)
+        job_detail = get_job_detail_from_db(job_title)
+        text = u"{} from {} is removed." \
+            .format(job_detail['job_title'], job_detail['company_name'])
         message_api.send_text_message(target, text)
 
 def update_removed_jobs_in_db(removed_jobs):
@@ -67,5 +68,8 @@ def get_job_detail(job_title):
     for job in latest_job_items:
         if job['job_title'] == job_title:
             return job
+
+def get_job_detail_from_db(job_title):
+    return dao.query_job_by_title(job_title)
 
 compare()
